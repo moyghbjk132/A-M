@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
@@ -21,6 +21,28 @@
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            background-color: #007bff;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
         }
 
         h1 {
@@ -243,6 +265,10 @@
 
 <body>
     <div class="container">
+        <nav>
+            <a href="index.html">الفاتورة الرئيسية</a>
+            <a href="history.html">سجل المبيعات (الأرشيف)</a>
+        </nav>
         <h1>فاتورة الكتب</h1>
         <div class="invoice-date" style="display:none; text-align: center;">التاريخ: <span id="currentDate"></span>
         </div>
