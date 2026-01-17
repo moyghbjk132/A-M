@@ -5,117 +5,222 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سجل المبيعات - الأرشيف</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --sidebar-width: 280px;
+            --royal-blue: #1a56db;
+            --deep-blue: #1e429f;
+            --gold: #d4a017;
+            --bg-light: #f3f4f6;
+            --white: #ffffff;
+            --danger: #e02424;
+            --success: #057a55;
+            --text-dark: #111827;
+        }
+
         body {
             font-family: 'Tajawal', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
-            text-align: center;
+            background-color: var(--bg-light);
+            display: flex;
+            height: 100vh;
+            direction: rtl;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        nav {
-            background-color: #007bff;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-
-        nav a {
+        /* Sidebar Royal Bold */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--deep-blue);
             color: white;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .sidebar-logo {
+            padding: 35px 20px;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--gold);
+        }
+
+        .nav-links {
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nav-links a {
+            padding: 18px 20px;
             text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
+            color: #d1d5db;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-links a.active {
+            background: var(--gold);
+            color: white;
+            box-shadow: 0 4px 15px rgba(212, 160, 23, 0.4);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            color: var(--deep-blue);
+            font-weight: 900;
+            margin-bottom: 40px;
+        }
+
+        .filter-group {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        select {
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            font-family: inherit;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .btn-clear {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 900;
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             margin-top: 20px;
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
+            border-radius: 20px;
+            overflow: hidden;
+            background: white;
         }
 
         th {
-            background-color: #007bff;
-            color: white;
+            background: #f8fafc;
+            color: var(--deep-blue);
+            padding: 20px;
+            font-weight: 900;
+            border-bottom: 3px solid var(--royal-blue);
+        }
+
+        td {
+            padding: 18px;
+            border-bottom: 1px solid #f1f5f9;
+            text-align: center;
+            font-weight: 700;
         }
 
         .summary {
-            margin-top: 20px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #28a745;
-        }
-
-        .filter-group {
-            margin-bottom: 20px;
-        }
-
-        select {
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
+            margin-top: 40px;
+            padding: 30px;
+            background: #ecfdf4;
+            color: #065f46;
+            border-radius: 20px;
+            font-size: 1.6rem;
+            font-weight: 900;
+            border-bottom: 5px solid var(--success);
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <nav>
-            <a href="index.html">الفاتورة الرئيسية</a>
-            <a href="history.html">سجل المبيعات (الأرشيف)</a>
-        </nav>
-        <h1>سجل المبيعات التاريخي</h1>
-
-        <div class="filter-group">
-            <label>تصفية حسب الصف:</label>
-            <select id="gradeFilter">
-                <option value="all">الكل</option>
-                <option value="الصف الأول">الصف الأول</option>
-                <option value="الصف الثاني">الصف الثاني</option>
-                <option value="الصف الثالث">الصف الثالث</option>
-                <option value="الصف الرابع">الصف الرابع</option>
-                <option value="الصف الخامس">الصف الخامس</option>
-                <option value="الصف السادس">الصف السادس</option>
-                <option value="الصف الأول الإعدادي">الصف الأول الإعدادي</option>
-                <option value="الصف الثاني الإعدادي">الصف الثاني الإعدادي</option>
-                <option value="الصف الثالث الإعدادي">الصف الثالث الإعدادي</option>
-            </select>
-            <button onclick="clearHistory()"
-                style="background-color: #dc3545; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-right: 10px;">مسح
-                السجل بالكامل</button>
+    <aside class="sidebar">
+        <div class="sidebar-logo">🏛️ مكتبة إسلام</div>
+        <div class="nav-links">
+            <a href="index.html">🏠 الفاتورة الرئيسية</a>
+            <a href="other_items.html">📦 أصناف وأدوات</a>
+            <a href="history.html" class="active">🕒 سجل المبيعات</a>
         </div>
+    </aside>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>التاريخ</th>
-                    <th>المادة</th>
-                    <th>الصف</th>
-                    <th>السعر</th>
-                </tr>
-            </thead>
-            <tbody id="historyTableBody">
-            </tbody>
-        </table>
+    <main class="main-content">
+        <div class="card">
+            <h1>📜 سجل المبيعات والأرشيف</h1>
 
-        <div class="summary">إجمالي المبيعات المؤرشفة: <span id="totalHistoryPrice">0</span></div>
-    </div>
+            <div class="filter-group">
+                <label style="font-weight: 900; color: var(--deep-blue);">تصفية حسب الصف:</label>
+                <select id="gradeFilter">
+                    <option value="all">الكل</option>
+                    <option value="الصف الأول">الصف الأول</option>
+                    <option value="الصف الثاني">الصف الثاني</option>
+                    <option value="الصف الثالث">الصف الثالث</option>
+                    <option value="الصف الرابع">الصف الرابع</option>
+                    <option value="الصف الخامس">الصف الخامس</option>
+                    <option value="الصف السادس">الصف السادس</option>
+                    <option value="الصف الأول الإعدادي">الصف الأول الإعدادي</option>
+                    <option value="الصف الثاني الإعدادي">الصف الثاني الإعدادي</option>
+                    <option value="الصف الثالث الإعدادي">الصف الثالث الإعدادي</option>
+                    <option value="أصناف أخرى">أصناف أخرى</option>
+                </select>
+                <button onclick="clearHistory()" class="btn-clear">🗑️ مسح السجل نهائياً</button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>التاريخ والوقت</th>
+                        <th>المادة / الصنف</th>
+                        <th>الصف الدراسي</th>
+                        <th>السعر</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                </tbody>
+            </table>
+
+            <div class="summary">إجمالي المبيعات المؤرشفة: <span id="totalHistoryPrice">0</span> جنيه</div>
+        </div>
+    </main>
 
     <script>
         const historyTableBody = document.getElementById('historyTableBody');
@@ -136,7 +241,7 @@
                         <td>${item.date || '---'}</td>
                         <td>${item.subject}</td>
                         <td>${item.grade}</td>
-                        <td>${item.price}</td>
+                        <td>${item.price} جنيه</td>
                     `;
                     historyTableBody.appendChild(row);
                     total += parseFloat(item.price);

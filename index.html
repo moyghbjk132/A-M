@@ -5,340 +5,396 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>فاتورة الكتب</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --sidebar-width: 280px;
+            --royal-blue: #1a56db;
+            --deep-blue: #1e429f;
+            --gold: #d4a017;
+            --bg-light: #f3f4f6;
+            --white: #ffffff;
+            --danger: #e02424;
+            --success: #057a55;
+            --text-dark: #111827;
+        }
+
         body {
             font-family: 'Tajawal', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
-            text-align: center;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        nav {
-            background-color: #007bff;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
+            background-color: var(--bg-light);
             display: flex;
-            justify-content: center;
-            gap: 20px;
+            height: 100vh;
+            direction: rtl;
         }
 
-        nav a {
+        /* Sidebar Royal Bold */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--deep-blue);
             color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
         }
 
-        nav a:hover {
-            text-decoration: underline;
-            opacity: 0.8;
+        .sidebar-logo {
+            padding: 35px 20px;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--gold);
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nav-links a {
+            padding: 18px 20px;
+            text-decoration: none;
+            color: #d1d5db;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid transparent;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .nav-links a.active {
+            background: var(--gold);
+            color: white;
+            box-shadow: 0 4px 15px rgba(212, 160, 23, 0.4);
+        }
+
+        /* Main Content Royal Area */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid #e5e7eb;
+            border-radius: 24px;
+            padding: 35px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
         }
 
         h1 {
-            color: #333;
+            color: var(--deep-blue);
+            font-size: 2.3rem;
+            font-weight: 900;
+            margin-bottom: 40px;
+            border-right: 8px solid var(--gold);
+            padding-right: 20px;
         }
 
-        .invoice-header-total {
-            font-size: 24px;
-            font-weight: bold;
-            color: #28a745;
-            margin: 10px 0;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-        }
-
-        input[type="text"],
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: #007bff;
+        .total-banner {
+            background: linear-gradient(135deg, var(--deep-blue), var(--royal-blue));
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
+            padding: 30px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 30px rgba(30, 66, 159, 0.3);
+            border-bottom: 5px solid var(--gold);
         }
 
-        button:hover {
-            background-color: #0056b3;
+        .total-banner h2 {
+            margin: 0;
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .total-banner .price {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #fbbf24;
+        }
+
+        .grade-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 15px;
+        }
+
+        .grade-button {
+            background: var(--white);
+            border: 2px solid #f3f4f6;
+            padding: 20px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .grade-button:hover {
+            border-color: var(--royal-blue);
+            background: #f0f7ff;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        #subjectContainer {
+            background: #fafafa;
+            border: 2px dashed #cbd5e1;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 25px;
+        }
+
+        .subject-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 14px 22px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            margin: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .subject-item:hover {
+            border-color: var(--gold);
+            background: #fffbeb;
+        }
+
+        button#addToTable {
+            background: var(--royal-blue);
+            color: white;
+            padding: 22px;
+            font-size: 1.4rem;
+            font-weight: 900;
+            border-radius: 18px;
+            width: 100%;
+            margin-top: 35px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(26, 86, 219, 0.3);
+            transition: 0.3s;
+        }
+
+        button#addToTable:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 1.15rem;
         }
 
         th {
-            background-color: #007bff;
-            color: white;
+            background: #f8fafc;
+            color: var(--deep-blue);
+            padding: 22px;
+            font-weight: 900;
+            border-bottom: 3px solid var(--royal-blue);
         }
 
-        .grade-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+        td {
+            padding: 20px;
+            border-bottom: 1px solid #f1f5f9;
+            text-align: center;
+            font-weight: 700;
+            color: #334155;
         }
 
-        .grade-button {
-            background-color: #007bff;
-            color: white;
+        .delete-btn {
+            background: #fee2e2;
+            color: var(--danger);
             border: none;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 10px 18px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
-            flex: 1 1 30%;
+            font-weight: 700;
+            transition: 0.2s;
         }
 
-        .grade-button:hover {
-            background-color: #0056b3;
-        }
-
-        #subjectContainer {
-            display: none;
-            margin-top: 10px;
-            text-align: right;
-        }
-
-        .subject-checkbox {
-            margin-left: 10px;
-        }
-
-        #printButton,
-        #printButtonTop {
-            background-color: #28a745;
+        .delete-btn:hover {
+            background: var(--danger);
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 20px;
-            display: block;
-            width: 100%;
-        }
-
-        #printButton:hover,
-        #printButtonTop:hover {
-            background-color: #218838;
         }
 
         @media print {
-            body {
-                background-color: #fff;
-                font-family: 'Tajawal', sans-serif;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-                margin: 0;
-            }
 
-            .container {
-                width: 100%;
-                max-width: 100%;
-                margin: 0;
-                padding: 40px;
-                box-shadow: none;
-                border: none;
-            }
-
-            h1 {
-                font-size: 26pt;
-                color: #2c3e50;
-                margin: 0 0 20px 0;
-                text-align: center;
-                padding-bottom: 15px;
-                border-bottom: 3px solid #3498db;
-            }
-
-            .invoice-date {
-                display: block !important;
-                text-align: left;
-                font-size: 12pt;
-                color: #7f8c8d;
-                margin-bottom: 40px;
-                font-weight: bold;
-            }
-
-            /* Table Styling */
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 30px;
-            }
-
-            th {
-                background-color: #f8f9fa !important;
-                color: #2c3e50;
-                font-weight: bold;
-                padding: 15px;
-                border-bottom: 2px solid #ddd;
-                text-align: center;
-                font-size: 14pt;
-                border: none !important;
-            }
-
-            td {
-                padding: 12px 15px;
-                border-bottom: 1px solid #eee;
-                color: #2c3e50;
-                font-size: 12pt;
-                text-align: center;
-                border: none !important;
-            }
-
-            /* Total Row styling */
-            tfoot th {
-                background-color: transparent !important;
-                border-top: 2px solid #333;
-                font-size: 16pt;
-                color: #333;
-                padding-top: 20px;
-            }
-
-            #totalPriceDisplay {
-                color: #27ae60;
-                font-size: 18pt;
-            }
-
-            /* Footer */
-            #invoiceFooter {
-                display: flex !important;
-                justify-content: space-between;
-                margin-top: 80px;
-                padding-top: 20px;
-                border-top: 1px dashed #ccc;
-                font-size: 12pt;
-            }
-
-            /* Hide non-printable elements */
-            .form-group,
-            #addToTable,
-            #printButton,
+            .sidebar,
+            .main-content button,
             #clearTableButton,
-            #printButtonTop,
-            .delete-btn,
-            th:last-child,
-            td:last-child {
+            #printButtonTop {
                 display: none !important;
             }
 
-            tr.exclude-from-print {
-                display: none;
+            .main-content {
+                padding: 0;
+                background: white;
+            }
+
+            .card {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+
+            h1 {
+                border: none;
+                padding: 0;
+                margin-bottom: 20px;
+            }
+
+            table {
+                border: 2px solid #000 !important;
+            }
+
+            th,
+            td {
+                border: 1px solid #000 !important;
+                color: black !important;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <nav>
-            <a href="index.html">الفاتورة الرئيسية</a>
-            <a href="history.html">سجل المبيعات (الأرشيف)</a>
-        </nav>
-        <h1>فاتورة الكتب</h1>
-        <div class="invoice-date" style="display:none; text-align: center;">التاريخ: <span id="currentDate"></span>
+    <aside class="sidebar">
+        <div class="sidebar-logo">🏛️ مكتبة إسلام</div>
+        <div class="nav-links">
+            <a href="index.html" class="active">🏠 الفاتورة الرئيسية</a>
+            <a href="other_items.html">📦 أصناف وأدوات</a>
+            <a href="history.html">🕒 سجل المبيعات</a>
         </div>
-        <button id="printButtonTop">طباعة الفاتورة</button>
-        <div class="form-group">
-            <label>اختر الصف</label>
-            <div class="grade-buttons">
-                <button class="grade-button" data-grade="الصف الأول">الصف الأول</button>
-                <button class="grade-button" data-grade="الصف الثاني">الصف الثاني</button>
-                <button class="grade-button" data-grade="الصف الثالث">الصف الثالث</button>
-                <button class="grade-button" data-grade="الصف الرابع">الصف الرابع</button>
-                <button class="grade-button" data-grade="الصف الخامس">الصف الخامس</button>
-                <button class="grade-button" data-grade="الصف السادس">الصف السادس</button>
-                <button class="grade-button" data-grade="الصف الأول الإعدادي" style="background-color: #6c757d;">الصف
-                    الأول الإعدادي</button>
-                <button class="grade-button" data-grade="الصف الثاني الإعدادي" style="background-color: #6c757d;">الصف
-                    الثاني الإعدادي</button>
-                <button class="grade-button" data-grade="الصف الثالث الإعدادي" style="background-color: #6c757d;">الصف
-                    الثالث الإعدادي</button>
+    </aside>
+
+    <main class="main-content">
+        <h1>إدارة فواتير الكتب المدرسية</h1>
+
+        <div class="total-banner">
+            <div>
+                <h2>إجمالي الفاتورة الحالية</h2>
+                <div style="font-size: 0.95rem; opacity: 0.9; margin-top: 5px;">سيتم تحديث التكلفة فور إضافة أي صنف جديد
+                </div>
+            </div>
+            <div class="price"><span id="totalPriceDisplayTop">0</span> <small style="font-size: 1.2rem;">جنيه</small>
             </div>
         </div>
-        <div class="form-group">
-            <label>اختر المواد</label>
-            <div id="subjectContainer">
+
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <h3 style="margin: 0; color: var(--deep-blue); font-size: 1.5rem; font-weight: 900;">1. اختيار الكتب
+                    المدرسية</h3>
+                <button id="printButtonTop"
+                    style="background: var(--success); color: white; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 10px rgba(5, 122, 85, 0.3);">🖨️
+                    طباعة الفاتورة الآن</button>
+            </div>
+
+            <div class="form-group" style="text-align: right; margin-bottom: 30px;">
                 <label
-                    style="display: block; font-weight: bold; color: #007bff; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-bottom: 10px;">
-                    <input type="checkbox" id="selectAllSubjects"> تحديد الكل
+                    style="display: block; margin-bottom: 15px; font-weight: 700; color: #475569; font-size: 1.1rem;">اختر
+                    الصف الدراسي من القائمة:</label>
+                <div class="grade-buttons">
+                    <button class="grade-button" data-grade="الصف الأول">الصف الأول</button>
+                    <button class="grade-button" data-grade="الصف الثاني">الصف الثاني</button>
+                    <button class="grade-button" data-grade="الصف الثالث">الصف الثالث</button>
+                    <button class="grade-button" data-grade="الصف الرابع">الصف الرابع</button>
+                    <button class="grade-button" data-grade="الصف الخامس">الصف الخامس</button>
+                    <button class="grade-button" data-grade="الصف السادس">الصف السادس</button>
+                    <button class="grade-button" data-grade="الصف الأول الإعدادي">الأول الإعدادي</button>
+                    <button class="grade-button" data-grade="الصف الثاني الإعدادي">الثاني الإعدادي</button>
+                    <button class="grade-button" data-grade="الصف الثالث الإعدادي">الثالث الإعدادي</button>
+                </div>
+            </div>
+
+            <div id="subjectContainer" style="display: none;">
+                <label
+                    style="display: block; font-weight: 900; color: var(--royal-blue); margin-bottom: 15px; font-size: 1.1rem;">
+                    <input type="checkbox" id="selectAllSubjects" style="transform: scale(1.4); margin-left: 10px;">
+                    اختيار كل المواد للصف المختار
                 </label>
-                <label><input type="checkbox" class="subject-checkbox" value="عربي"> عربي</label>
-                <label><input type="checkbox" class="subject-checkbox" value="علوم"> علوم</label>
-                <label><input type="checkbox" class="subject-checkbox" value="دراسات"> دراسات</label>
-                <label><input type="checkbox" class="subject-checkbox" value="رياضيات"> رياضيات</label>
-                <label><input type="checkbox" class="subject-checkbox" value="لغة إنجليزية"> لغة إنجليزية</label>
+                <div id="subjectsList">
+                    <!-- Dynamic subjects here -->
+                </div>
+            </div>
+
+            <button id="addToTable">📥 إضافة المختار للفاتورة</button>
+        </div>
+
+        <div class="card">
+            <h3 style="margin: 0 0 30px 0; color: var(--deep-blue); font-size: 1.5rem; font-weight: 900;">📋 محتويات
+                الفاتورة التفصيلية</h3>
+            <table id="invoiceTable">
+                <thead>
+                    <tr>
+                        <th>المادة / الصنف</th>
+                        <th>الصف الدراسي</th>
+                        <th>السعر (جنيه)</th>
+                        <th>التحكم</th>
+                    </tr>
+                </thead>
+                <tbody id="invoiceTableBody">
+                    <!-- Dynamic rows -->
+                </tbody>
+                <tfoot>
+                    <tr style="background: #f8fafc;">
+                        <td colspan="2"
+                            style="text-align: left; padding-left: 60px; font-size: 1.4rem; color: var(--deep-blue); font-weight: 900;">
+                            المجموع النهائي للحساب</td>
+                        <td id="totalPriceDisplay"
+                            style="color: var(--success); font-size: 1.8rem; font-weight: 900; background: #f0fdf4;">0
+                        </td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div style="margin-top: 35px;">
+                <button id="clearTableButton"
+                    style="background: #fff5f5; color: var(--danger); border: 2px solid var(--danger); padding: 18px; border-radius: 15px; font-weight: 900; cursor: pointer; width: 100%; font-size: 1.1rem; transition: 0.2s;">🗑️
+                    تفريغ الجدول تماماً</button>
             </div>
         </div>
 
-        <button id="addToTable">إضافة إلى الجدول</button>
-
-        <div class="invoice-header-total">الإجمالي: <span id="totalPriceDisplayTop">0</span></div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>المادة</th>
-                    <th>الصف</th>
-                    <th>السعر</th>
-                    <th>حذف</th>
-                </tr>
-            </thead>
-            <tbody id="invoiceTableBody">
-                <!-- Rows will be added here -->
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th colspan="2">الإجمالي</th>
-                    <th id="totalPriceDisplay">0</th>
-                </tr>
-            </tfoot>
-        </table>
-
-        <button id="clearTableButton" style="background-color: #dc3545; margin-top: 20px;">مسح الجدول تماماً</button>
-        <button id="printButton">طباعة الفاتورة</button>
-
-        <div id="invoiceFooter" style="display:none;">
-            <p>شكراً لتعاملكم معنا</p>
-            <p>توقيع المسئول: ............................</p>
+        <div id="invoiceFooter"
+            style="display:none; margin-top: 60px; text-align: center; border-top: 3px double #000; padding-top: 40px;">
+            <p style="font-size: 1.8rem; font-weight: 900; color: #000; margin-bottom: 10px;">شكراً لتعاملكم مع مكتبة
+                إسلام</p>
+            <p style="font-size: 1.1rem; color: #000;">العنوان: ....................................... | تليفون:
+                .......................................</p>
         </div>
-    </div>
+    </main>
 
     <script src="script.js"></script>
 </body>
 
 </html>
+```

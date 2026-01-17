@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة أصناف أخرى</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --royal-blue: #1a56db;
+            --deep-blue: #1e429f;
+            --gold: #d4a017;
+            --bg-light: #f3f4f6;
+            --white: #ffffff;
+            --danger: #e02424;
+            --success: #057a55;
+            --text-dark: #111827;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            display: flex;
+            height: 100vh;
+            direction: rtl;
+        }
+
+        /* Sidebar Royal Bold */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--deep-blue);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .sidebar-logo {
+            padding: 35px 20px;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--gold);
+        }
+
+        .nav-links {
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nav-links a {
+            padding: 18px 20px;
+            text-decoration: none;
+            color: #d1d5db;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-links a.active {
+            background: var(--gold);
+            color: white;
+            box-shadow: 0 4px 15px rgba(212, 160, 23, 0.4);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            color: var(--deep-blue);
+            font-weight: 900;
+            margin-bottom: 40px;
+        }
+
+        .item-row {
+            display: flex;
+            gap: 15px;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 18px;
+            margin-bottom: 15px;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        input {
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 600;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--royal-blue);
+        }
+
+        #addRowBtn {
+            background: transparent;
+            color: var(--royal-blue);
+            width: 100%;
+            border: 2px dashed var(--royal-blue);
+            padding: 15px;
+            font-weight: 900;
+            cursor: pointer;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.1rem;
+        }
+
+        #addRowBtn:hover {
+            background: #eff6ff;
+        }
+
+        #addItemBtn {
+            background: var(--success);
+            color: white;
+            width: 100%;
+            padding: 20px;
+            border: none;
+            border-radius: 18px;
+            font-weight: 900;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(5, 122, 85, 0.3);
+        }
+
+        .remove-row-btn {
+            background: #fee2e2;
+            color: var(--danger);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 900;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-logo">🏛️ مكتبة إسلام</div>
+        <div class="nav-links">
+            <a href="index.html">🏠 الفاتورة الرئيسية</a>
+            <a href="other_items.html" class="active">📦 أصناف وأدوات</a>
+            <a href="history.html">🕒 سجل المبيعات</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="card">
+            <h1>📥 إضافة أصناف وأدوات جديدة</h1>
+
+            <div id="itemsList">
+                <div class="item-row">
+                    <input type="text" class="item-name" placeholder="اسم الصنف (مثلاً: كشكول سلك)" style="flex: 3;">
+                    <input type="number" class="item-price" placeholder="السعر" style="flex: 1;">
+                    <button type="button" class="remove-row-btn">✕</button>
+                </div>
+            </div>
+
+            <button id="addRowBtn">+ إضافة سطر جديد للقائمة</button>
+            <button id="addItemBtn">حفظ وإضافة للفاتورة</button>
+
+            <div id="statusMsg"
+                style="margin-top: 25px; padding: 20px; border-radius: 15px; font-weight: 900; display: none;"></div>
+        </div>
+    </main>
+
+    <script>
+        const itemsList = document.getElementById('itemsList');
+        const addRowBtn = document.getElementById('addRowBtn');
+
+        // Function to add a new row
+        addRowBtn.addEventListener('click', () => {
+            const newRow = document.createElement('div');
+            newRow.className = 'item-row';
+            newRow.innerHTML = `
+                <input type="text" class="item-name" placeholder="اسم الصنف" style="flex: 2;">
+                <input type="number" class="item-price" placeholder="السعر" style="flex: 1;">
+                <button type="button" class="remove-row-btn">✕</button>
+            `;
+            itemsList.appendChild(newRow);
+
+            // Attach remove logic
+            newRow.querySelector('.remove-row-btn').addEventListener('click', () => {
+                newRow.remove();
+            });
+        });
+
+        // Initial remove logic for first row
+        document.querySelector('.remove-row-btn').addEventListener('click', (e) => {
+            if (itemsList.children.length > 1) {
+                e.target.closest('.item-row').remove();
+            } else {
+                alert('يجب وجود صنف واحد على الأقل');
+            }
+        });
+
+        document.getElementById('addItemBtn').addEventListener('click', () => {
+            const rows = document.querySelectorAll('.item-row');
+            let addedCount = 0;
+
+            const now = new Date();
+            const dateString = now.toLocaleDateString('ar-EG') + ' ' + now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+
+            let invoiceItems = JSON.parse(localStorage.getItem('invoiceItems')) || [];
+            let allRecords = JSON.parse(localStorage.getItem('allSalesRecords')) || [];
+
+            rows.forEach(row => {
+                const name = row.querySelector('.item-name').value;
+                const price = row.querySelector('.item-price').value;
+
+                if (name && price) {
+                    const newItem = {
+                        grade: "أصناف أخرى",
+                        subject: name,
+                        price: parseFloat(price),
+                        date: dateString
+                    };
+
+                    invoiceItems.unshift(newItem);
+                    allRecords.unshift(newItem);
+                    addedCount++;
+                }
+            });
+
+            if (addedCount > 0) {
+                localStorage.setItem('invoiceItems', JSON.stringify(invoiceItems));
+                localStorage.setItem('allSalesRecords', JSON.stringify(allRecords));
+
+                const statusMsg = document.getElementById('statusMsg');
+                statusMsg.textContent = `تمت إضافة ${addedCount} أصناف بنجاح!`;
+                statusMsg.style.display = 'block';
+                statusMsg.style.backgroundColor = '#d4edda';
+                statusMsg.style.color = '#155724';
+
+                // Reset list but keep one empty row
+                itemsList.innerHTML = `
+                    <div class="item-row">
+                        <input type="text" class="item-name" placeholder="اسم الصنف" style="flex: 2;">
+                        <input type="number" class="item-price" placeholder="السعر" style="flex: 1;">
+                        <button type="button" class="remove-row-btn">✕</button>
+                    </div>
+                `;
+                // Re-attach logic to new first row
+                itemsList.querySelector('.remove-row-btn').addEventListener('click', (e) => {
+                    if (itemsList.children.length > 1) { e.target.closest('.item-row').remove(); }
+                });
+
+                setTimeout(() => { statusMsg.style.display = 'none'; }, 3000);
+            } else {
+                alert('يرجى ملء بيانات صنف واحد على الأقل (الاسم والسعر)');
+            }
+        });
+    </script>
+</body>
+
+</html>
