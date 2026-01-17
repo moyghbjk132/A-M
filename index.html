@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فاتورة الكتب</title>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .invoice-header-total {
+            font-size: 24px;
+            font-weight: bold;
+            color: #28a745;
+            margin: 10px 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .grade-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .grade-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            flex: 1 1 30%;
+        }
+
+        .grade-button:hover {
+            background-color: #0056b3;
+        }
+
+        #subjectContainer {
+            display: none;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .subject-checkbox {
+            margin-left: 10px;
+        }
+
+        #printButton,
+        #printButtonTop {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+        }
+
+        #printButton:hover,
+        #printButtonTop:hover {
+            background-color: #218838;
+        }
+
+        @media print {
+            body {
+                background-color: #fff;
+                font-family: 'Tajawal', sans-serif;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                margin: 0;
+            }
+
+            .container {
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                padding: 40px;
+                box-shadow: none;
+                border: none;
+            }
+
+            h1 {
+                font-size: 26pt;
+                color: #2c3e50;
+                margin: 0 0 20px 0;
+                text-align: center;
+                padding-bottom: 15px;
+                border-bottom: 3px solid #3498db;
+            }
+
+            .invoice-date {
+                display: block !important;
+                text-align: left;
+                font-size: 12pt;
+                color: #7f8c8d;
+                margin-bottom: 40px;
+                font-weight: bold;
+            }
+
+            /* Table Styling */
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 30px;
+            }
+
+            th {
+                background-color: #f8f9fa !important;
+                color: #2c3e50;
+                font-weight: bold;
+                padding: 15px;
+                border-bottom: 2px solid #ddd;
+                text-align: center;
+                font-size: 14pt;
+                border: none !important;
+            }
+
+            td {
+                padding: 12px 15px;
+                border-bottom: 1px solid #eee;
+                color: #2c3e50;
+                font-size: 12pt;
+                text-align: center;
+                border: none !important;
+            }
+
+            /* Total Row styling */
+            tfoot th {
+                background-color: transparent !important;
+                border-top: 2px solid #333;
+                font-size: 16pt;
+                color: #333;
+                padding-top: 20px;
+            }
+
+            #totalPriceDisplay {
+                color: #27ae60;
+                font-size: 18pt;
+            }
+
+            /* Footer */
+            #invoiceFooter {
+                display: flex !important;
+                justify-content: space-between;
+                margin-top: 80px;
+                padding-top: 20px;
+                border-top: 1px dashed #ccc;
+                font-size: 12pt;
+            }
+
+            /* Hide non-printable elements */
+            .form-group,
+            #addToTable,
+            #printButton,
+            #clearTableButton,
+            #printButtonTop,
+            .delete-btn,
+            th:last-child,
+            td:last-child {
+                display: none !important;
+            }
+
+            tr.exclude-from-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>فاتورة الكتب</h1>
+        <div class="invoice-date" style="display:none; text-align: center;">التاريخ: <span id="currentDate"></span>
+        </div>
+        <button id="printButtonTop">طباعة الفاتورة</button>
+        <div class="form-group">
+            <label>اختر الصف</label>
+            <div class="grade-buttons">
+                <button class="grade-button" data-grade="الصف الأول">الصف الأول</button>
+                <button class="grade-button" data-grade="الصف الثاني">الصف الثاني</button>
+                <button class="grade-button" data-grade="الصف الثالث">الصف الثالث</button>
+                <button class="grade-button" data-grade="الصف الرابع">الصف الرابع</button>
+                <button class="grade-button" data-grade="الصف الخامس">الصف الخامس</button>
+                <button class="grade-button" data-grade="الصف السادس">الصف السادس</button>
+                <button class="grade-button" data-grade="الصف الأول الإعدادي" style="background-color: #6c757d;">الصف
+                    الأول الإعدادي</button>
+                <button class="grade-button" data-grade="الصف الثاني الإعدادي" style="background-color: #6c757d;">الصف
+                    الثاني الإعدادي</button>
+                <button class="grade-button" data-grade="الصف الثالث الإعدادي" style="background-color: #6c757d;">الصف
+                    الثالث الإعدادي</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>اختر المواد</label>
+            <div id="subjectContainer">
+                <label
+                    style="display: block; font-weight: bold; color: #007bff; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-bottom: 10px;">
+                    <input type="checkbox" id="selectAllSubjects"> تحديد الكل
+                </label>
+                <label><input type="checkbox" class="subject-checkbox" value="عربي"> عربي</label>
+                <label><input type="checkbox" class="subject-checkbox" value="علوم"> علوم</label>
+                <label><input type="checkbox" class="subject-checkbox" value="دراسات"> دراسات</label>
+                <label><input type="checkbox" class="subject-checkbox" value="رياضيات"> رياضيات</label>
+                <label><input type="checkbox" class="subject-checkbox" value="لغة إنجليزية"> لغة إنجليزية</label>
+            </div>
+        </div>
+
+        <button id="addToTable">إضافة إلى الجدول</button>
+
+        <div class="invoice-header-total">الإجمالي: <span id="totalPriceDisplayTop">0</span></div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>المادة</th>
+                    <th>الصف</th>
+                    <th>السعر</th>
+                    <th>حذف</th>
+                </tr>
+            </thead>
+            <tbody id="invoiceTableBody">
+                <!-- Rows will be added here -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2">الإجمالي</th>
+                    <th id="totalPriceDisplay">0</th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <button id="clearTableButton" style="background-color: #dc3545; margin-top: 20px;">مسح الجدول تماماً</button>
+        <button id="printButton">طباعة الفاتورة</button>
+
+        <div id="invoiceFooter" style="display:none;">
+            <p>شكراً لتعاملكم معنا</p>
+            <p>توقيع المسئول: ............................</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

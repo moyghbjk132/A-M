@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختيار المادة</title>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .subject-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>اختر المادة</h1>
+        <div class="subject-buttons">
+            <button class="subject-button" data-subject="عربي">عربي</button>
+            <button class="subject-button" data-subject="علوم">علوم</button>
+            <button class="subject-button" data-subject="دراسات">دراسات</button>
+            <button class="subject-button" data-subject="رياضيات">رياضيات</button>
+            <button class="subject-button" data-subject="لغة إنجليزية">لغة إنجليزية</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const subjectButtons = document.querySelectorAll('.subject-button');
+
+            subjectButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const selectedSubject = button.getAttribute('data-subject');
+                    localStorage.setItem('selectedSubject', selectedSubject);
+                    window.history.back(); // Go back to the previous page
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
