@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سجل المبيعات - الأرشيف</title>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            background-color: #007bff;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .summary {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <a href="index.html">الفاتورة الرئيسية</a>
+            <a href="history.html">سجل المبيعات (الأرشيف)</a>
+        </nav>
+        <h1>سجل المبيعات التاريخي</h1>
+
+        <div class="filter-group">
+            <label>تصفية حسب الصف:</label>
+            <select id="gradeFilter">
+                <option value="all">الكل</option>
+                <option value="الصف الأول">الصف الأول</option>
+                <option value="الصف الثاني">الصف الثاني</option>
+                <option value="الصف الثالث">الصف الثالث</option>
+                <option value="الصف الرابع">الصف الرابع</option>
+                <option value="الصف الخامس">الصف الخامس</option>
+                <option value="الصف السادس">الصف السادس</option>
+                <option value="الصف الأول الإعدادي">الصف الأول الإعدادي</option>
+                <option value="الصف الثاني الإعدادي">الصف الثاني الإعدادي</option>
+                <option value="الصف الثالث الإعدادي">الصف الثالث الإعدادي</option>
+            </select>
+            <button onclick="clearHistory()"
+                style="background-color: #dc3545; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-right: 10px;">مسح
+                السجل بالكامل</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>التاريخ</th>
+                    <th>المادة</th>
+                    <th>الصف</th>
+                    <th>السعر</th>
+                </tr>
+            </thead>
+            <tbody id="historyTableBody">
+            </tbody>
+        </table>
+
+        <div class="summary">إجمالي المبيعات المؤرشفة: <span id="totalHistoryPrice">0</span></div>
+    </div>
+
+    <script>
+        const historyTableBody = document.getElementById('historyTableBody');
+        const gradeFilter = document.getElementById('gradeFilter');
+        const totalHistoryPrice = document.getElementById('totalHistoryPrice');
+
+        let allRecords = JSON.parse(localStorage.getItem('allSalesRecords')) || [];
+
+        function renderHistory() {
+            historyTableBody.innerHTML = '';
+            let total = 0;
+            const filterValue = gradeFilter.value;
+
+            allRecords.forEach(item => {
+                if (filterValue === 'all' || item.grade === filterValue) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.date || '---'}</td>
+                        <td>${item.subject}</td>
+                        <td>${item.grade}</td>
+                        <td>${item.price}</td>
+                    `;
+                    historyTableBody.appendChild(row);
+                    total += parseFloat(item.price);
+                }
+            });
+
+            totalHistoryPrice.textContent = total;
+        }
+
+        gradeFilter.addEventListener('change', renderHistory);
+
+        function clearHistory() {
+            if (confirm('هل أنت متأكد من مسح "كل" السجل التاريخي؟ لا يمكن التراجع!')) {
+                localStorage.removeItem('allSalesRecords');
+                allRecords = [];
+                renderHistory();
+            }
+        }
+
+        renderHistory();
+    </script>
+</body>
+
+</html>

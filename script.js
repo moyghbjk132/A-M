@@ -137,35 +137,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Add rows to the table for each selected subject
-        // Reverse to ensure the first selected options ends up at the very top after consecutive unshifts
+        const now = new Date();
+        const dateString = now.toLocaleDateString('ar-EG') + ' ' + now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+
         selectedSubjects.reverse().forEach(subject => {
-            // Get price based on Grade AND Subject
             let subjectPrice = 0;
             if (bookPrices[selectedGrade] && bookPrices[selectedGrade][subject] !== undefined) {
                 subjectPrice = bookPrices[selectedGrade][subject];
             } else {
-                // Fallback or Alert?
-                // If the subject is not listed for this grade (e.g. Science for Grade 1)
-                // We can either skip or set to 0. Let's alert to be safe, or just add with price 0?
-                // Alert is better to avoid mistakes.
                 alert(`عذراً، المادة "${subject}" غير مسجلة للصف "${selectedGrade}".`);
                 return;
             }
 
-            // Check if price is 0 (missing in data) and warn?
             if (subjectPrice === 0) {
-                alert(`تنبيه: سعر المادة "${subject}" في "${selectedGrade}" مسجل بـ 0. يرجى التأكد من الأسعار.`);
+                alert(`تنبيه: سعر المادة "${subject}" في "${selectedGrade}" مسجل بـ 0.`);
             }
 
-            // Add to Data Array
-            invoiceItems.unshift({
+            const newItem = {
                 grade: selectedGrade,
                 subject: subject,
-                price: subjectPrice
-            });
+                price: subjectPrice,
+                date: dateString
+            };
+
+            // Add to Active Data Array
+            invoiceItems.unshift(newItem);
+
+            // Add to Permanent History Array
+            let allRecords = JSON.parse(localStorage.getItem('allSalesRecords')) || [];
+            allRecords.unshift(newItem);
+            localStorage.setItem('allSalesRecords', JSON.stringify(allRecords));
         });
 
-        // Save and Render
+        // Save and Render Active Invoice
         saveInvoice();
         renderInvoice();
 
